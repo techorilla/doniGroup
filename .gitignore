@@ -1,0 +1,5 @@
+# IDE Specific #
+################
+.idea/
+
+./doniGroup/settings/environment.py

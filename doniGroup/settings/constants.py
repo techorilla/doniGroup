@@ -1,0 +1,4 @@
+# DATABASE CONFIGS
+
+LOCAL_DB_USER = 'doniGroup'
+LOCAL_DB_PASSWORD = 'Giki1990????'
