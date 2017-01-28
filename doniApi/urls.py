@@ -7,9 +7,19 @@ from django.conf.urls import include, url
 
 urlpatterns = (
 
+    # User Related API
+
+    url(r'user/$',
+        User.as_view(),
+        name='User'),
+
+    url(r'user/(?P<user_id>[0-9]+)/profilePic/$',
+        UserProfilePicAPI.as_view(),
+        name='User'),
+
     # Business Partner Related API
 
-    url(r'bp_partner/basic/(?P<bp_id>[a-zA-Z0-9.@_-]+)/$',
+    url(r'bp_partner/(?P<bp_id>[a-zA-Z0-9.@_-]+)/basic/$',
         BpBasicAPI.as_view(),
         name='Business Partner Basic'),
 
@@ -25,33 +35,37 @@ urlpatterns = (
         BpContactNumberAPI.as_view(),
         name='Business Partner Person'),
 
-    url(r'bp_partner/(?P<bp_id>[a-zA-Z0-9.@_-]+)/products/(?P<product_id>[a-zA-Z0-9.@_-]+)/$',
+    url(r'bp_partner/(?P<bp_id>[a-zA-Z0-9.@_-]+)/product/(?P<product_id>[a-zA-Z0-9.@_-]+)/$',
         BpProductsAPI.as_view(),
         name='Business Partner Products'),
 
+    url(r'bp_partner/(?P<bp_id>[a-zA-Z0-9.@_-]+)/location/$',
+        BpLocationAPI.as_view(),
+        name='Business Partner Locations'),
+
     # Transaction Related API
 
-    url(r'transactions/(?P<tr_id>[a-zA-Z0-9.@_-]+)/basic/$',
+    url(r'transactions/basic/(?P<tr_id>[a-zA-Z0-9.@_-]+)/$',
         TransactionBasicAPI.as_view(),
         name='Transaction Basic'),
 
-    url(r'transactions/(?P<tr_id>[a-zA-Z0-9.@_-]+)/commission/$',
+    url(r'transactions/commission/(?P<tr_id>[a-zA-Z0-9.@_-]+)/$',
         TransactionCommissionAPI.as_view(),
         name='Transaction Commission'),
 
-    url(r'transactions/(?P<tr_id>[a-zA-Z0-9.@_-]+)/contract/$',
+    url(r'transactions/contract/(?P<tr_id>[a-zA-Z0-9.@_-]+)/$',
         TransactionContractAPI.as_view(),
         name='Transaction Contract'),
 
-    url(r'transactions/(?P<tr_id>[a-zA-Z0-9.@_-]+)/document/(?P<doc_id>[a-zA-Z0-9.@_-]+)$',
+    url(r'transactions/document/(?P<tr_id>[a-zA-Z0-9.@_-]+)/$',
         TransactionNoteAPI.as_view(),
         name='Transaction Documents'),
 
-    url(r'transactions/(?P<tr_id>[a-zA-Z0-9.@_-]+)/note/(?P<bp_id>[a-zA-Z0-9.@_-]+)/$',
+    url(r'transactions/note/(?P<tr_id>[a-zA-Z0-9.@_-]+)/$',
         TransactionBasicAPI.as_view(),
         name='Transaction Notes'),
 
-    url(r'transactions/(?P<tr_id>[a-zA-Z0-9.@_-]+)/secondary/(?P<sec_id>[a-zA-Z0-9.@_-]+)$',
+    url(r'transactions/secondary/(?P<tr_id>[a-zA-Z0-9.@_-]+)/$',
         TransactionSecondaryAPI.as_view(),
         name='Transaction Secondary'),
 
@@ -71,10 +85,75 @@ urlpatterns = (
 
     # Origins API
 
+    url(r'origin/(?P<origin_id>[0-9]+)/$',
+        OriginsAPI.as_view(),
+        name='Products Origin'),
+
+    url(r'origin/$',
+        OriginsAPI.as_view(),
+        name='Products Origin'),
+
+    # Product Keyword API
+
+    url(r'keywords/$',
+        ProductsKeywordAPI.as_view(),
+        name='Products Keywords'),
+
+    url(r'product/keywords/(?P<product_id>[0-9]+)/$',
+        ProductsKeywordAPI.as_view(),
+        name='Products Keywords'),
+
+    url(r'keywords/(?P<keyword_id>[0-9]+)/$',
+        ProductsKeywordAPI.as_view(),
+        name='Products Keywords'),
+
+    # Product API
+
+    # Product Image API
+
+    url(r'product/image/$',
+        ProductsImageAPI.as_view(),
+        name='Products Image'),
+
+    url(r'product/(?P<product_id>[0-9]+)/image/$',
+        ProductsImageAPI.as_view(),
+        name='Products Image'),
+
     # Product Related API
 
-    url(r'product/(?P<product_id>[a-zA-Z0-9.@_-]+)',
-        BpProductsAPI.as_view(),
-        name='Products')
+    url(r'product/$',
+        ProductsAPI.as_view(),
+        name='Products'),
+
+
+    # Blog Related API
+
+    url(r'blog/tag_list/$',
+        TagList.as_view(),
+        name='tag-list'),
+
+    url(r'blog/tag_list/(?P<pk>[0-9]+)/$',
+        TagDetail.as_view(),
+        name='tag-detail'),
+
+    url(r'blog/$',
+        BlogList.as_view(),
+        name='blog-list'),
+
+    url(r'^(?P<pk>[0-9]+)/$',
+        BlogDetail.as_view(),
+        name='blog-detail'),
+
+    # Tab Filters Related API
+
+    url(r'tabFilters/list/$',
+        TabFiltersAPI.as_view(),
+        name='tab-filters'
+        ),
+
+    # DropDownRelatedAPI
+    url(r'^dropDown/',
+        include('doniApi.dropDown.urls'))
+
 
 )

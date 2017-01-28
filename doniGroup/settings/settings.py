@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+
 from .constants import *
+
+# from doniCore.middleware.session_expiry import SessionExpiry
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,10 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+
+    # Application Apps
+    'doniServer'
 ]
 
 MIDDLEWARE = [
+    'doniServer.middleware.SessionExpiry',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,7 +55,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+
+# Authentication Backend
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 ROOT_URLCONF = 'doniGroup.urls'
 
@@ -85,12 +99,12 @@ DATABASES = {
     # }
 
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DoniGroup',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': '',
+        'ENGINE': MYSQL_ENGINE,
+        'NAME': MYSQL_DB,
+        'HOST': MYSQL_HOST,
+        'PORT': MYSQL_PORT,
+        'USER': MYSQL_USER,
+        'PASSWORD': MYSQL_PASSWORD,
     }
 }
 
@@ -127,8 +141,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+IS_HTTPS = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media'
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
